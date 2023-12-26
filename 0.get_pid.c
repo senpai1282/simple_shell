@@ -9,14 +9,18 @@
  * list_ppid = lists the PPID of the prosess.
  * return : 0
  */
+
 int main(void)
+
 {
-	pid_t list_pid;
+	pid_t list_pid; {
 		list_pid = getpid();
 		printf("The PID is: %u\n", list_pid);
-	pid_t list_ppid;
+	}
+	pid_t list_ppid; {
 		list_ppid = getppid();
 		printf("The PPID is:%u\n", list_ppid);
+	}
 	return (0);
 }
 
