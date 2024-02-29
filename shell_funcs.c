@@ -21,14 +21,14 @@ int execute_external_command(char **argv, char *filename) {
         perror("fork");
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
-        // Child process
+        /** Child process */
         execvp(filename, argv);
 
-        // If execvp fails
+        /** If execvp fails */
         perror("execvp");
         exit(EXIT_FAILURE);
     } else {
-        // Parent process
+        /** Parent process */
         waitpid(pid, &status, 0);
         return WEXITSTATUS(status);
     }
@@ -44,13 +44,13 @@ int handle_builtin_commands(char **argv) {
         } else {
             handle_cd_command(argv[1]);
         }
-        return 1;  // Indicate that a built-in command was handled
+        return 1;  /** Indicate that a built-in command was handled */
     } else if (strcmp(argv[0], "pwd") == 0) {
         handle_pwd_command();
-        return 1;  // Indicate that a built-in command was handled
+        return 1;  /** Indicate that a built-in command was handled */
     }
 
-    return 0;  // Return 0 if no built-in command was handled
+    return 0;  /** Return 0 if no built-in command was handled */
 }
 /**
  * Splits a string into an array of strings based on a delimiter.
@@ -60,7 +60,7 @@ int handle_builtin_commands(char **argv) {
  */
 char **split_string(const char *delimiter, const char *line) {
     char *copy = strdup(line);
-    char **tokens = malloc(sizeof(char *) * 64);  // Assuming a maximum of 64 tokens
+    char **tokens = malloc(sizeof(char *) * 64);  /** Assuming a maximum of 64 tokens */
 
     if (!tokens) {
         perror("malloc");
@@ -75,7 +75,7 @@ char **split_string(const char *delimiter, const char *line) {
         token = strtok(NULL, delimiter);
     }
 
-    tokens[i] = NULL;  // Null-terminate the array
+    tokens[i] = NULL;  /** Null-terminate the array  */
     free(copy);
 
     return tokens;
@@ -97,50 +97,50 @@ void free_tokens(char **tokens) {
  * @param line The command line.
  */
 void execute_command(char *line, int run_in_background) {
-    // Parse the command
+    /** Parse the command */
     char **argv = split_string(" ", line);
 
     if (argv == NULL || argv[0] == NULL) {
-        // Handle empty command or parsing failure
+        /** Handle empty command or parsing failure */
         fprintf(stderr, "Error: Empty command or parsing failure\n");
         return;
     }
 
-    // Check if the command is a builtin command
+    /** Check if the command is a builtin command */
     if (handle_builtin_commands(argv)) {
-        // Builtin command handled successfully
-        free_tokens(argv);  // Free memory
+        /** Builtin command handled successfully */
+        free_tokens(argv);  /** Free memory */
         return;
     }
 
-    // Not a builtin command, execute it
+    /** Not a builtin command, execute it */
     pid_t pid = fork();
 
     if (pid == -1) {
-        // Fork failed
+        /** Fork failed */
         perror("fork");
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
-        // Child process
+        /** Child process */
         int status = execute_external_command(argv, NULL);
 
-        // Handle status if needed
+        /** Handle status if needed */
 
-        free_tokens(argv);  // Free memory
+        free_tokens(argv);  /** Free memory */
         exit(status);
     } else {
-        // Parent process
+        /** Parent process */
         if (!run_in_background) {
-            // If not a background command, wait for the child process to finish
+            /** If not a background command, wait for the child process to finish */
             int status;
             waitpid(pid, &status, 0);
 
-            // Handle status if needed
+            /** Handle status if needed */
         } else {
-            // If it's a background command, print its process ID
+            /** If it's a background command, print its process ID */
             printf("[%d] %s\n", pid, line);
         }
     }
 
-    free_tokens(argv); // Free memory
+    free_tokens(argv); /** Free memory */
 }

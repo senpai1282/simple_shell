@@ -8,7 +8,7 @@
 
 void ls() {
     struct dirent *entry;
-    DIR *dir = opendir("."); // Open the current directory
+    DIR *dir = opendir("."); /* Open the current directory */
 
     if (dir == NULL) {
         perror("opendir");
@@ -24,7 +24,8 @@ void ls() {
 }
 
 void echo(int argc, char *argv[]) {
-    for (int i = 1; i < argc; i++) {
+    int i;
+    for (i = 1; i < argc; i++) {
         write(STDOUT_FILENO, argv[i], strlen(argv[i]));
         if (i < argc - 1) {
             // Write a space between arguments
