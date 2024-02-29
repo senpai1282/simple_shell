@@ -3,10 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include <dirent.h>
+#include <string.h>
 
 extern char **environ;
 
@@ -22,10 +21,11 @@ char *make_path_arr(char **str);
 char *compare_and_set_env(char **env, char **argv);
 
 void execute_command(char *line, int run_in_background);
-int execute_external_command(char **argv);
+int execute_external_command(char **argv, char *filename);
 int handle_builtin_commands(char **argv, char **env);
+
 // Declarations for new functions
-void handle_cd_command();
+void handle_cd_command(char *directory);
 void handle_pwd_command();
 
 #endif /* HEADER_H */

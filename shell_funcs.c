@@ -15,7 +15,8 @@
  */
 int execute_external_command(char **argv, char *filename) {
     pid_t pid = fork();
-int status = execute_external_command(argv);
+    int status;
+
     if (pid == -1) {
         perror("fork");
         exit(EXIT_FAILURE);
@@ -28,43 +29,16 @@ int status = execute_external_command(argv);
         exit(EXIT_FAILURE);
     } else {
         // Parent process
-        int status;
         waitpid(pid, &status, 0);
         return WEXITSTATUS(status);
     }
 }
-
 /**
  * Handles the "cd" command.
  * @param directory The directory to change to.
  */
-void handle_cd_command(char *directory) {
-    if (chdir(directory) != 0) {
-        perror("cd");
-    }
-}
-
-/**
- * Handles the "pwd" command.
- */
-void handle_pwd_command() {
-    char current_dir[1024];
-    if (getcwd(current_dir, sizeof(current_dir)) != NULL) {
-        printf("%s\n", current_dir);
-    } else {
-        perror("pwd");
-    }
-}
-
-/**
- * Handles built-in commands.
- * @param argv Array of arguments, including the command.
- * @return Status of the command execution.
- */
 int handle_builtin_commands(char **argv) {
-    if (handle_builtin_commands(argv, environ)) {
-        exit(EXIT_SUCCESS);
-    } else if (strcmp(argv[0], "cd") == 0) {
+    if (strcmp(argv[0], "cd") == 0) {
         if (argv[1] == NULL) {
             fprintf(stderr, "cd: missing argument\n");
         } else {
@@ -78,7 +52,6 @@ int handle_builtin_commands(char **argv) {
 
     return 0;  // Return 0 if no built-in command was handled
 }
-
 /**
  * Splits a string into an array of strings based on a delimiter.
  * @param delimiter The delimiter to split the string.

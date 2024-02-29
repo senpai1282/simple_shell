@@ -6,34 +6,27 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-void change_directory(char *arguments[]) {
-    if (arguments[1] == NULL) {
-        fprintf(stderr, "cd: missing argument\n");
-    } else {
-        if (chdir(arguments[1]) != 0) {
-            perror("cd");
-        }
+void ls() {
+    struct dirent *entry;
+    DIR *dir = opendir("."); // Open the current directory
+
+    if (dir == NULL) {
+        perror("opendir");
+        exit(EXIT_FAILURE);
     }
-}
 
-void print_current_directory(char *arguments[]) {
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("%s\n", cwd);
-    } else {
-        perror("pwd");
+    while ((entry = readdir(dir)) != NULL) {
+        write(STDOUT_FILENO, entry->d_name, strlen(entry->d_name));
+        write(STDOUT_FILENO, "\n", 1); // Print a newline after each entry
     }
+
+    closedir(dir);
 }
 
-void ls_command(char *arguments[]) {
-    // Implementation of ls command
-    // ...
-}
-
-void echo_command(char *arguments[]) {
-    for (int i = 1; arguments[i] != NULL; i++) {
-        write(STDOUT_FILENO, arguments[i], strlen(arguments[i]));
-        if (arguments[i + 1] != NULL) {
+void echo(int argc, char *argv[]) {
+    for (int i = 1; i < argc; i++) {
+        write(STDOUT_FILENO, argv[i], strlen(argv[i]));
+        if (i < argc - 1) {
             // Write a space between arguments
             write(STDOUT_FILENO, " ", 1);
         }
