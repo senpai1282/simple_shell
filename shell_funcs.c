@@ -1,55 +1,93 @@
 #include "header.h"
+#include <sys/wait.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-void display_prompt() {
-    // Your implementation
-    display_dollar_sign();
-}
+/**
+ * split_string - Splits a string into tokens
+ * @delim: Pointer to the string containing the delimiter characters.
+ * @str: Pointer to the input string to be split.
+ * Return: An array of strings representing tokens.
+ */
+char **split_string(char *delim, char *str) {
+    int i = 0;
+    char *tmp2 = NULL;
+    char **tmp = NULL;
+    char *tokn = NULL;
+    int token_len = 0;
 
-void display_dollar_sign(void) {
-    char *prombet = "$ ";
-    write(STDOUT_FILENO, prombet, 2);
-    fflush(stdout);
-}
+    if (str == NULL)
+        return NULL;
 
-void check_state(int is_cmplte, char **argv, int cnt, char *file, char **env) {
-    char *pathname = NULL;
-    is_cmplte = check_the_slash(argv[0]);
-    if (!is_cmplte) {
-        pathname = compare_and_set_env(env, argv);
-        check_if_true(pathname, argv, cnt, file);
-        free(pathname);
-    } else {
-        check_if_true(argv[0], argv, cnt, file);
+    tmp2 = strdup(str);
+    if (tmp2 == NULL)
+        return NULL;
+
+    tmp = malloc(sizeof(char *) * 10); // Adjust the size as needed
+    if (tmp == NULL) {
+        free(tmp2);
+        return NULL;
     }
-    free_grid(argv);
+
+    tokn = strtok(tmp2, delim);
+    while (tokn != NULL && i < 10) {
+        if (tokn != NULL)
+            token_len = strlen(tokn);
+
+        tmp[i] = malloc(sizeof(char) * (token_len + 1));
+        if (tmp[i] == NULL) {
+            free_grid(tmp);
+            free(tmp2);
+            return NULL;
+        }
+
+        strcpy(tmp[i], tokn);
+        tmp[i][token_len] = '\0';
+        i++;
+        tokn = strtok(NULL, delim);
+    }
+
+    free(tmp2);
+    tmp[i] = NULL;
+    return tmp;
 }
 
-void display_prompt(char **env, char **envp, char **arg, int count) {
-    char *filename = arg[0];
-    char *buff = NULL;
-    size_t t = 0;
-    size_t n = 10000;
-    int is_complete = 0;
-    char **argv = NULL;
+/**
+ * free_grid - Frees the memory allocated
+ * for a 2D array of strings.
+ * @grid: Pointer to the 2D array of strings.
+ */
+void free_grid(char **grid) {
+    int count = 0;
 
-    while (isatty(STDIN_FILENO)) {
+    while (grid[count] != NULL) {
+        free(grid[count]);
         count++;
-        display_dollar_sign();
-        t = _getline(&buff, &n, stdin);
-        if (strcmp(buff, "\n") == 0 || check_the_spaces(buff) == 0) {
-            free(buff);
-            continue;
-        } else if ((int)t == -1 || isExit(buff) == 1) {
-            free_grid(env);
-            free(buff);
-            exit(0);
-        } else if ((t > 0) && (buff[t - 1] == '\n'))
-            buff[t - 1] = '\0';
-        if (strcmp(buff, "env") == 0) {
-            print_env(envp);
-            free(buff);
-            continue;
+    }
+    free(grid);
+}
+
+/**
+ * execute_command - Executes a given command
+ * @argv: Pointer to the array of command-line arguments.
+ */
+void execute_command(char **argv) {
+    pid_t pid = fork();
+
+    if (pid == -1) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (pid == 0) {
+        // Child process
+        if (execvp(argv[0], argv) == -1) {
+            perror("execvp");
+            exit(EXIT_FAILURE);
         }
-        argv = split_string(" ", buff);
-        if (argv == NULL) {
-            perror
+    } else {
+        // Parent process
+        wait(NULL);
+    }
+}
