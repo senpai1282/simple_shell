@@ -1,16 +1,20 @@
-#include "main.h"
+#include "header.h"
+
+void display_prompt() {
+    // Your implementation
+    display_dollar_sign();
+}
 
 void display_dollar_sign(void) {
-    char *prompt = "$ ";
-    write(STDOUT_FILENO, prompt, 2);
+    char *prombet = "$ ";
+    write(STDOUT_FILENO, prombet, 2);
     fflush(stdout);
 }
 
-void check_state(int is_complete, char **argv, int cnt, char *file, char **env) {
+void check_state(int is_cmplte, char **argv, int cnt, char *file, char **env) {
     char *pathname = NULL;
-
-    is_complete = check_the_slash(argv[0]);
-    if (!is_complete) {
+    is_cmplte = check_the_slash(argv[0]);
+    if (!is_cmplte) {
         pathname = compare_and_set_env(env, argv);
         check_if_true(pathname, argv, cnt, file);
         free(pathname);

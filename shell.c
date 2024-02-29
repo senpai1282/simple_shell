@@ -1,12 +1,13 @@
-#include "main.h"
+#include "header.h"
+#include <dirent.h>
 
 void ls() {
-    struct dirent *entry;
     DIR *dir = opendir("."); // Open the current directory
+    struct dirent *entry;
 
     if (dir == NULL) {
-        perror("No such file or directory");
-        exit(EXIT_FAILURE);
+        perror("opendir");
+        return;
     }
 
     while ((entry = readdir(dir)) != NULL) {
@@ -83,12 +84,12 @@ int main(int ac, char **arg, char **envp) {
     (void)ac;
     en = make_path_arr(envp);
 
-    env = split_string(":", en);
+    env = spilt_string(":", en);
 
     if (isatty(STDIN_FILENO))
-        display_prompt(env, envp, arg, count);
+        display_prompt();
     else
         non_interactive_mode(env, arg, envp, count);
 
-    return (0);
+    return 0;
 }
