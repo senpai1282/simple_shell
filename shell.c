@@ -14,10 +14,10 @@ void ls() {
         perror("opendir");
         exit(EXIT_FAILURE);
     }
-
+    
     while ((entry = readdir(dir)) != NULL) {
         write(STDOUT_FILENO, entry->d_name, strlen(entry->d_name));
-        write(STDOUT_FILENO, "\n", 1); // Print a newline after each entry
+        write(STDOUT_FILENO, "\n", 1); /* Print a newline after each entry */
     }
 
     closedir(dir);
@@ -28,11 +28,11 @@ void echo(int argc, char *argv[]) {
     for (i = 1; i < argc; i++) {
         write(STDOUT_FILENO, argv[i], strlen(argv[i]));
         if (i < argc - 1) {
-            // Write a space between arguments
+            /* Write a space between arguments */
             write(STDOUT_FILENO, " ", 1);
         }
     }
-    // Write a newline at the end
+    /* Write a newline at the end */
     write(STDOUT_FILENO, "\n", 1);
 }
 
@@ -45,13 +45,13 @@ int main() {
         write(STDOUT_FILENO, "#cisfun$  ", 16);
         read = getline(&line, &len, stdin);
         if (read != -1) {
-            // Remove newline character
+            /* Remove newline character */
             line[strcspn(line, "\n")] = '\0';
 
             if (strcmp(line, "ls") == 0) {
                 ls();
             } else if (strcmp(line, "echo") == 0) {
-                // Split the line into arguments for echo
+                /* Split the line into arguments for echo */
                 char *token = strtok(line, " ");
                 int argc = 0;
                 char *argv[10];
