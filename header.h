@@ -24,7 +24,7 @@ void execute_command(char *line, int run_in_background);
 int execute_external_command(char **argv, char *filename);
 int handle_builtin_commands(char **argv, char **env);
 
-// Declarations for new functions
+/* Declarations for new functions */
 void handle_cd_command(char *directory);
 void handle_pwd_command();
 
