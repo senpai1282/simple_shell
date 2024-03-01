@@ -12,11 +12,11 @@ int main() {
         read = getline(&line, &len, stdin);
 
         if (read != -1) {
-            // Check if the command should run in the background
+            /* Check if the command should run in the background */
             int background = 0;
             if (line[read - 2] == '&') {
                 background = 1;
-                line[read - 2] = '\0';  // Remove the '&' from the command
+                line[read - 2] = '\0';  /* Remove the '&' from the command */
             }
 
             execute_command(line, background);
