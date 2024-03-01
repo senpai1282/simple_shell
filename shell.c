@@ -6,12 +6,12 @@
 #include <dirent.h>
 #include <string.h>
 
-void ls(void) 
+void ls(void)
 {
 	struct dirent *entry;
-	DIR *dir = opendir("."); 
-    
-	if (dir == NULL) 
+	DIR *dir = opendir(".");
+
+	if (dir == NULL)
 	{
 	perror("opendir");
 	exit(EXIT_FAILURE);
@@ -25,10 +25,10 @@ void ls(void)
 	closedir(dir);
 }
 
-void echo(int argc, char *argv[]) 
+void echo(int argc, char *argv[])
 {
 	int i;
-	for (i = 1; i < argc; i++) 
+	for (i = 1; i < argc; i++)
 	{
         write(STDOUT_FILENO, argv[i], strlen(argv[i]));
         if (i < argc - 1) 
@@ -45,25 +45,25 @@ int main()
 	size_t len = 0;
 	ssize_t read;
 
-	while (1) 
+	while (1)
 	{
 	write(STDOUT_FILENO, "#cisfun$  ", 16);
 	read = getline(&line, &len, stdin);
-		if (read != -1) 
+		if (read != -1)
 		{
 		line[strcspn(line, "\n")] = '\0';
 
-		if (strcmp(line, "ls") == 0) 
+		if (strcmp(line, "ls") == 0)
 		{
 		ls();
 		}
-		else if (strcmp(line, "echo") == 0) 
+		else if (strcmp(line, "echo") == 0)
 	{
 	char *token = strtok(line, " ");
 	int argc = 0;
 	char *argv[10];
 
-		while (token != NULL && argc < 10) 
+		while (token != NULL && argc < 10)
 		{
 			argv[argc++] = token;
 			token = strtok(NULL, " ");
@@ -71,7 +71,7 @@ int main()
 
                 	echo(argc, argv);
 			}
-            
+
 		}
 	}
 
