@@ -60,18 +60,21 @@ int main(void)
 				ls();
 			}
 			else if (strcmp(line, "echo") == 0)
-		{
-	char *token = strtok(line, " ");
-	int argc = 0;
-	char *argv[10];
+			{
+				echo(line);
+			}
+			{
+				char *token = strtok(line, " ");
+				int argc = 0;
+				char *argv[10];
 
-	while (token != NULL && argc < 10)
-		{
-		argv[argc++] = token;
-		token = strtok(NULL, " ");
-	}
-		echo(argc, argv);
-	}
+					while (token != NULL && argc < 10)
+					{
+						argv[argc++] = token;
+						token = strtok(NULL, " ");
+					}
+				echo(argc, argv);
+			}
 		}
 	}
 
