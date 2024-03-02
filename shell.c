@@ -28,7 +28,7 @@ void ls(void)
 void echo(int argc, char *argv[])
 {
 	int i;
-	
+
 	for (i = 1; i < argc; i++)
 
 	{
@@ -55,12 +55,12 @@ int main(void)
 		{
 		line[strcspn(line, "\n")] = '\0';
 
-		if (strcmp(line, "ls") == 0)
+			if (strcmp(line, "ls") == 0)
+			{
+				ls();
+			}
+			else if (strcmp(line, "echo") == 0)
 		{
-		ls();
-		}
-		else if (strcmp(line, "echo") == 0)
-	{
 	char *token = strtok(line, " ");
 	int argc = 0;
 	char *argv[10];
