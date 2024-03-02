@@ -25,17 +25,8 @@ void ls(void)
 	closedir(dir);
 }
 
-void echo(char *line)
+void echo(int argc, char *argv[])
 {
-	char *token = strtok(line, " ");
-	int argc = 0;
-	char *argv[10];
-
-	while (token != NULL && argc < 10)
-		{
-			argv[argc++] = token;
-			token = strtok(NULL, " ");
-		}
 	int i;
 
 	for (i = 1; i < argc; i++)
@@ -70,9 +61,7 @@ int main(void)
 			else if (strcmp(line, "echo") == 0)
 			{
 				echo(line);
-			}
-			else
-			{
+
 				char *token = strtok(line, " ");
 				int argc = 0;
 				char *argv[10];
