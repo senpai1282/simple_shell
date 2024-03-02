@@ -28,14 +28,15 @@ void ls(void)
 void echo(int argc, char *argv[])
 {
 	int i;
+	
 	for (i = 1; i < argc; i++)
 
 	{
 		write(STDOUT_FILENO, argv[i], strlen(argv[i]));
-        		if (i < argc - 1)
-			{
-				write(STDOUT_FILENO, " ", 1);
-			}
+		if (i < argc - 1)
+		{
+			write(STDOUT_FILENO, " ", 1);
+		}
 	}
 	write(STDOUT_FILENO, "\n", 1);
 }
@@ -64,14 +65,13 @@ int main(void)
 	int argc = 0;
 	char *argv[10];
 
-		while (token != NULL && argc < 10)
+	while (token != NULL && argc < 10)
 		{
-			argv[argc++] = token;
-			token = strtok(NULL, " ");
-			}
-                		echo(argc, argv);
-			}
-
+		argv[argc++] = token;
+		token = strtok(NULL, " ");
+	}
+		echo(argc, argv);
+	}
 		}
 	}
 
