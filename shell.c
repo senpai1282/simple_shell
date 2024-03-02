@@ -30,7 +30,6 @@ void ls(void)
 
 /**
  * echo : Prints the given arguments to the standard output.
- * 
  * @param argc Number of arguments.
  * @param argv Array of arguments.
  */
@@ -51,7 +50,6 @@ void echo(int argc, char *argv[])
 
 /**
  * Main : function to read user input and execute corresponding commands.
- * 
  * @return 0 on successful execution.
  */
 int main(void)
