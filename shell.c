@@ -71,6 +71,7 @@ int main(void)
 			{
 				echo(line);
 			}
+			else
 			{
 				char *token = strtok(line, " ");
 				int argc = 0;
