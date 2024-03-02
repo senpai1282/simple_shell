@@ -70,9 +70,6 @@ int main(void)
 			else if (strcmp(line, "echo") == 0)
 			{
 				echo(line);
-			}
-			else
-			{
 				char *token = strtok(line, " ");
 				int argc = 0;
 				char *argv[10];
