@@ -6,6 +6,9 @@
 #include <dirent.h>
 #include <string.h>
 
+/**
+ * Lists files and directories in the current directory.
+ */
 void ls(void)
 {
 	struct dirent *entry;
@@ -25,6 +28,12 @@ void ls(void)
 	closedir(dir);
 }
 
+/**
+ * Prints the given arguments to the standard output.
+ * 
+ * @param argc Number of arguments.
+ * @param argv Array of arguments.
+ */
 void echo(int argc, char *argv[])
 {
 	int i;
@@ -40,6 +49,11 @@ void echo(int argc, char *argv[])
 	write(STDOUT_FILENO, "\n", 1);
 }
 
+/**
+ * Main function to read user input and execute corresponding commands.
+ * 
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	char *line = NULL;
