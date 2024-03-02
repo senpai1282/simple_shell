@@ -25,12 +25,19 @@ void ls(void)
 	closedir(dir);
 }
 
-void echo(int argc, char *argv[])
+void echo(char *line)
 {
+	char *token = strtok(line, " ");
+	int argc = 0;
+	char *argv [10];
+
+	while (token != NULL && argc <10)
+		{
+			argv[argc++] = token;
+			token = strtok(NULL, " ");
+		}
 	int i;
-
 	for (i = 1; i < argc; i++)
-
 	{
 		write(STDOUT_FILENO, argv[i], strlen(argv[i]));
 		if (i < argc - 1)
