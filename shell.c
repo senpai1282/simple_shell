@@ -19,7 +19,7 @@ void ls(void)
 	while ((entry = readdir(dir)) != NULL)
 	{
 	write(STDOUT_FILENO, entry->d_name, strlen(entry->d_name));
-	write(STDOUT_FILENO, "\n", 1); 
+	write(STDOUT_FILENO, "\n", 1);
 	}
 
 	closedir(dir);
@@ -29,17 +29,18 @@ void echo(int argc, char *argv[])
 {
 	int i;
 	for (i = 1; i < argc; i++)
+
 	{
-        write(STDOUT_FILENO, argv[i], strlen(argv[i]));
-        if (i < argc - 1) 
-		{
-		write(STDOUT_FILENO, " ", 1);
-		}
+		write(STDOUT_FILENO, argv[i], strlen(argv[i]));
+        		if (i < argc - 1)
+			{
+				write(STDOUT_FILENO, " ", 1);
+			}
 	}
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-int main()
+int main(void)
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -68,13 +69,12 @@ int main()
 			argv[argc++] = token;
 			token = strtok(NULL, " ");
 			}
-
-                	echo(argc, argv);
+                		echo(argc, argv);
 			}
 
 		}
 	}
 
 	free(line);
-	return 0;
+	return (0);
 }
