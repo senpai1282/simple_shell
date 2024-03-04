@@ -7,7 +7,7 @@
 #include <string.h>
 
 /**
- * @ls List the contents of the current directory.
+ * @ls - List the contents of the current directory.
  */
 void ls(void)
 {
@@ -29,10 +29,10 @@ void ls(void)
 }
 
 /**
- * @echo Print the given arguments to the standard output.
+ * @echo - Print the given arguments to the standard output.
  *
- * @argc line A string containing the input arguments.
- * @argv argc The number of arguments in the input.
+ * @argc - line A string containing the input arguments.
+ * @argv - argc The number of arguments in the input.
  * @param argv An array of strings representing the arguments.
  */
 void echo(int argc, char *argv[])
@@ -51,7 +51,7 @@ void echo(int argc, char *argv[])
 }
 
 /**
- * @brief The main function for the shell program.
+ * @main - The main function for the shell program.
  *
  * @return Returns 0 upon successful execution.
  */
